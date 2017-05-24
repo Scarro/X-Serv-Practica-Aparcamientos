@@ -1,0 +1,48 @@
+{% extends 'aparcamientos/base_aparcamientos.html' %}
+
+{% block aparcamientos_content %}
+    {% if aparcamientos %}
+        <div class="row pt-5">
+            {% if buscador %}
+                {% include 'aparcamientos/buscador.html' %}
+            {% endif %}
+        </div>
+        <div class="row pt-2">
+            <div class="mb-3">
+                <h2 class="text-center font-weight-bold">Aparcamientos disponibles
+                {% if accesibles %} y accesibles{% endif %}{% if distrito %} en el distrito de {{distrito|title}}{% endif %}
+                :</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="list-group mb-2">
+                {% for aparcamiento in aparcamientos %}
+                    <a class="list-group-item list-group-item-action flex-column align-items-start" href="{% url 'aparcamientos:detalle' aparcamiento.identidad %}">
+                    <div class="mx-auto"><h4>{% autoescape off %}{{ aparcamiento.nombre }}{% endautoescape %}</h4></div></a>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% if is_paginated %}
+            <div class="row">
+                <p>Mostrando {{ aparcamientos.start_index }}-{{aparcamientos.end_index}} de {{paginator.count}}</p>
+            </div>
+            <div class="row">
+                <ul id="pagination-aparcamientos" class="pagination">
+                {% if aparcamientos.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{aparcamientos.previous_page_number}}">&laquo; Previous</a></li>
+                {% endif %}
+                {% if aparcamientos.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{aparcamientos.next_page_number}}">Next &raquo;</a></li>
+                {% endif %}
+                </ul>
+            {% endif %}
+             </div>
+        {% else %}
+            <div class="text-center font-weight-bold mt-5">
+                <h4>No existen aparcamientos.</h4>
+            </div>
+        {% endif %}
+    </div>
+{% endblock aparcamientos_content %}

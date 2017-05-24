@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if usuario %}
+        <div class="row pt-5">
+        {% if usuario.titulo %}
+            <h1 class="text-center font-weight-bold mb-4">{{usuario.titulo}}</h1>
+        {% else %}
+            <h1 class="text-center font-weight-bold mb-4">Página de {{usuario.user.username}}</h1>
+        {% endif %}
+        </div>
+        <div class="row pt-5">
+        {% if mismo %}
+            <div class="col-sm-2 offset-sm-1">
+                <div class="list-group">
+                    <a href="{% url 'usuarios:editar_titulo' usuario %}" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="mx-auto">Editar Titulo</div></a>
+                    <a href="{% url 'usuarios:editar_color' usuario %}" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="mx-auto">Editar Color de Fondo</div></a>
+                    <a href="{% url 'usuarios:editar_size' usuario %}" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="mx-auto">Editar Tamaño</div></a>
+                    <a href="{% url 'usuarios:editar_email' usuario %}" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="mx-auto">Editar Email</div></a>
+                    <a href="{% url 'usuarios:xml' usuario %}" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="mx-auto">XML</div></a>
+                </div>
+            </div>
+        {% endif %}
+        {% block usuarios_content %}{% endblock usuarios_content %}
+        </div>
+    {% else %}
+        <div class="row pt-5">
+            <div class="text-center font-weight-bold">
+                <h3>No existe ese usuario</h3>
+            </div>
+        </div>
+    {% endif %}
+    </div>
+{% endblock content %}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Aparcamientos>
+    {% for aparcamiento in aparcamientos %}
+        <aparcamiento>
+            <identidad>{{aparcamiento.identidad}}</identidad>
+            <nombre>{{aparcamiento.nombre}}</nombre>
+            <descripcion>{{aparcamiento.descripcion}}</descripcion>
+            <url>{{aparcamiento.url}}</url>
+            <accesibilidad>{{aparcamiento.accesibilidad}}</accesibilidad>
+            <Localizacion>
+                <nombre-via>{{aparcamiento.nombrevia|title}}</nombre-via>
+                <clase-vial>{{aparcamiento.clasevial|title}}</clase-vial>
+                <tipo-num>{{aparcamiento.tiponum|title}}</tipo-num>
+                <num>{{aparcamiento.numero|title}}</num>
+                <localidad>{{aparcamiento.localidad|title}}</localidad>
+                <provincia>{{aparcamiento.provincia|title}}</provincia>
+                <codigo-postal>{{aparcamiento.cpostal|title}</codigo-postal>
+                <barrio>{{aparcamiento.barrio|title}}</barrio>
+                <distrito>{{aparcamiento.distrito|title}}</distrito>
+                <coordenada-x>{{aparcamiento.x}}</coordenada-x>
+                <coordenada-y>{{aparcamiento.y}}</coordenada-y>
+                <latitud>{{aparcamiento.latitud}}</latitud>
+                <longitud>{{aparcamiento.longitud}}</longitud>
+            </Localizacion>
+            <Contacto>
+                <email>{{aparcamiento.email}}</email>
+                <telefono>{{aparcamiento.telefono}}</telefono>
+            </Contacto>
+        </aparcamiento>
+    {% endfor %}
+</Aparcamientos>

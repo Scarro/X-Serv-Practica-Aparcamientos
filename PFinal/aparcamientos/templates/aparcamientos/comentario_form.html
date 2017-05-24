@@ -1,0 +1,16 @@
+{% extends 'aparcamientos/detalle.html' %}
+
+{% block title %}{{ titulo }}{% endblock title %}
+
+{% block aparcamientos_content %}
+    <div class="row pt-5">
+        <div class="col-sm-4"> 
+            <h2 class="page-header ">{{ titulo }}</h2>
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">{{ nombre_btn }}</button>
+            </form>
+        </div>
+    </div>
+{% endblock aparcamientos_content %}

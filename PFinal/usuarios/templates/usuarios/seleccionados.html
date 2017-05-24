@@ -1,0 +1,46 @@
+{% extends 'usuarios/base_usuarios.html' %}
+
+{% block title %}Usuario{% endblock title %}
+
+{% block usuarios_content %}
+    {% if mismo %}
+        <div class="col-sm-6">
+    {% else %}
+        <div class="col-sm-10">
+            {% if seleccionados %}
+            <div class="text-center font-weight-bold">
+                    <a href="{% url 'usuarios:xml' usuario %}" type="button" class="btn btn-info"><i class=" fa fa-file-code-o fa-2x"></i> XML</a>
+                </div>
+                <br/>
+            {% endif %}
+    {% endif %}
+    {% if seleccionados %}
+        <div class="list-group">
+        {% for seleccion in seleccionados %}
+            <a href="{% url 'aparcamientos:detalle' seleccion.aparcamiento.identidad %}" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{% autoescape off %}{{ seleccion.aparcamiento.nombre }}{% endautoescape %}</h5>
+                    <small class="text-muted"><strong>Seleccionado el </strong>{{ seleccion.fecha| date:"d M" }} a las {{seleccion.fecha|date:"H:i"}}</small>
+                </div>
+            </a>
+        {% endfor %}
+        </div>
+        {% if is_paginated %}
+            <div class="mt-2 text-center">
+                Mostrando {{ seleccionados.start_index }}-{{seleccionados.end_index}} de {{paginator.count}}
+                <ul id="pagination-seleccion" class="pagination mt-1" style="margin-left: 47%;">
+                {% if seleccionados.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ seleccionados.previous_page_number }}">&laquo; Previous</a></li>
+                {% endif %}
+                {% if seleccionados.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ seleccionados.next_page_number }}">Next &raquo;</a></li>
+                {% endif %}
+            </ul>
+            </div>
+        {% endif %}
+        </div>
+    {% else %}
+            <p class="text-center">No hay aparcamientos seleccionados</p>
+        </div>
+    {% endif %}
+{% endblock usuarios_content %}

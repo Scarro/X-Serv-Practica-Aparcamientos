@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Aparcamientos{% endblock title %}
+
+{% block content %}
+<div class="row pt-3">
+    <div class="col-sm-3 offset-sm-1">
+        <div class="list-group">
+            <h2 class="text-center font-weight-bold mb-4">Usuario{% if usuarios.count > 0 %}{{usuarios.count|pluralize}}{% endif %}</h2>
+            <div class="list-group">
+            {% if usuarios %}
+                {% for usuario in usuarios %}
+                    <a href="{% url 'usuarios:index' usuario %}" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="h4 d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">
+                            {% if usuario.titulo %}
+                                {{ usuario.titulo }} - {{ usuario.nombre }}
+                            {% else %}
+                                Página de {{ usuario.user.username }}
+                            {% endif %}</h5>
+                            <span class="badge badge-pill badge-danger icono">{{usuario.user.seleccion_usuario.all.count}}</span>
+                        </div>
+                    </a>
+                {% endfor %}
+            {% else %}
+                <div class="text-center mt-3">
+                    <h4>No existen usuarios registrados.</h4>
+                </div>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <h2 class="text-center font-weight-bold mb-5">Aparcamientos 
+            {% if accesibles %}
+                accesibles
+            {% endif %} más comentados</h2>
+        {% if aparcamientos %}
+            <div class="list-group col-md-10 offset-md-1">
+            {% for aparcamiento in aparcamientos %}
+                <div class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="h3 d-flex w-100 justify-content-between">
+                        <h4 class="mb-1">{% autoescape off %}{{ aparcamiento.nombre }}{% endautoescape %}</h4>
+                        {% if aparcamiento.likes > 0%}
+                            <span class="badge badge-pill badge-success icono me-gusta">+{{aparcamiento.likes}}</span>
+                        {% endif %}
+                        <span class="badge badge-pill badge-info icono">{{aparcamiento.comentario_aparcamiento.count}}<span class="fa fa-comment-o"></span></span>
+                    </div>
+                    <p class="mb-1">{{ aparcamiento.clasevial|title}} {{ aparcamiento.nombrevia|title}}{% if aparcamiento.numero %}{{aparcamiento.numero|title}}{% endif %}</p>
+                    <small class="text-muted"><a href="{% url 'aparcamientos:detalle' aparcamiento.identidad %}">Más información</a></small>
+                </div>
+            {% endfor %}
+            </div>
+            <div class="row mt-5">
+                <div class="text-left">
+                    <a class="btn btn-success" href="{{request.path}}?archivo=xml{% if accesibles %}&accesibles=1{% endif %}" role="button"><span class="fa fa-file-code-o"> XML </span></a>
+                    <a class="btn btn-info" href="{{request.path}}?archivo=json{% if accesibles %}&accesibles=1{% endif %}" role="button"><span class="fa fa-file-code-o"> JSON </span></a>
+                </div>
+            </div>
+        {% else %}
+            <div class="text-center mt-3">
+               <h4>Actualmente no hay aparcamientos comentados.</h4>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

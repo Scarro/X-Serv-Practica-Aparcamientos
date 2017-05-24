@@ -1,0 +1,78 @@
+{% extends 'aparcamientos/base_aparcamientos.html' %}
+
+{% block aparcamientos_content %}
+    {% if aparcamiento %}
+        <div class="row pt-5">
+            <div class="text-center font-weight-bold">
+                <h1>
+                    {% autoescape off %}{{ aparcamiento.nombre }}{% endautoescape %}
+                    {% if aparcamiento.accesibilidad == 1 %}  
+                        <span class="fa-stack fa-lg">
+                          <i class="fa fa-square-o fa-stack-2x"></i>
+                          <i class="fa fa-wheelchair-alt fa-stack-1x"></i>
+                        </span>
+                    {% else %}
+                        <span class="fa-stack fa-lg">
+                          <i class="fa fa-wheelchair-alt fa-stack-1x"></i>
+                          <i class="fa fa-ban fa-stack-2x text-danger"></i>
+                        </span>
+                    {% endif %}
+                <h1>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="text-center">
+                {% if aparcamiento.descripcion %}
+                    <p><strong>Descripción: </strong>{{ aparcamiento.descripcion }}</p>
+                 {% else %}
+                    Sin descripción</p>
+                {% endif %}
+                {% if url %}
+                    <p><strong>URL: &nbsp;</strong> <a class="btn btn-outline-primary" href="{{aparcamiento.url}}">{{aparcamiento.nombre}}</a></p>
+                {% endif %}
+            </div>
+        </div>
+        {% if localizacion %}
+            {% include 'aparcamientos/mostrar_localizacion.html' %}
+        {% endif %}
+        {% if contacto %}
+            {% include 'aparcamientos/mostrar_contacto.html' %}
+        {% endif %}
+
+        {% if user.is_authenticated %}
+            <div class="row mb-3 mt-3">
+                <div class="col-xs-6 col-md-offset-3 texto-centrado">
+                    {% if not seleccionado %}
+                        <a href="{% url 'aparcamientos:seleccion' aparcamiento.identidad %}/?seleccion=1" class="btn btn-danger">Seleccionar</a>
+                    {% else %}
+                        <a href="{% url 'aparcamientos:seleccion' aparcamiento.identidad %}/?seleccion=anular" class="btn btn-outline-danger">Anular Seleción</a>
+                    {% endif %}
+                </div>
+            </div>
+
+        {% endif %}
+
+        {% if perms.aparcamientos.add_comentario or not liked %}
+            <div class="row mt-3">
+                <div>
+                    {% if perms.aparcamientos.add_comentario %}
+                        <a href="{% url 'aparcamientos:crear_comentario' aparcamiento.identidad %}" class="btn btn-primary mr-1">Añadir comentario</a>
+                    {% endif %}
+                    {% if not liked %}
+                        <a href="{% url 'aparcamientos:likes' aparcamiento.identidad %}" class="btn btn-success ml-1"><span class="fa fa-thumbs-o-up fa-2x"></span></a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="row mt-4 pb-4">
+            <div class="col-sm-5">
+                <h4>{{ comentarios.count }} comentario{{comentarios.count|pluralize}}. {{ aparcamiento.likes }} Me gusta</h4>
+            {% if comentarios %}
+                {% include 'aparcamientos/mostrar_comentarios.html' %}
+            {% endif %}
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock aparcamientos_content %}

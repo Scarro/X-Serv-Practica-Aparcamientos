@@ -1,0 +1,32 @@
+<div class="row mb-3 mt-2">
+    <h4>Localización:</h4>
+</div>
+<div class="row">
+    <div class="col-sm-10">
+        <div class="row">
+            <div class="col-sm-6 text-right pr-5">
+                {% if aparcamiento.nombrevia %}
+                    <p><strong>Dirección: </strong>{{ aparcamiento.clasevial|title| default_if_none:""}} {{ aparcamiento.nombrevia|title}}{% if aparcamiento.numero %} {{ aparcamiento.numero|title}}. {% endif %}</p>
+                {% endif %}
+                {% if aparcamiento.barrio %}
+                    <p><strong>Barrio: </strong>{{aparcamiento.barrio|title}}</p>
+                {% endif %}
+                {% if aparcamiento.distrito %}
+                    <p><strong>Distrito: </strong>{{aparcamiento.distrito|title}}</p>
+                {% endif %}
+                {% if aparcamiento.cpostal %}
+                    <p><strong>Código postal: </strong>{{aparcamiento.cpostal|title}}</p>
+                {% endif %}
+                {% if aparcamiento.localidad %}
+                    <p><strong>Localidad: </strong>{{aparcamiento.localidad|title}}</p>
+                {% endif %}
+                {% if aparcamiento.provincia %}
+                    <p><strong>Provincia: </strong>{{aparcamiento.provincia|title}}</p>
+                {% endif %}
+            </div>
+            <div class="col-sm-6">
+                <div id="map" class="w-50"></div>
+            </div>
+        </div>
+    </div>
+</div>

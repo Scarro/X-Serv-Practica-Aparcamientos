@@ -1,0 +1,101 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock title %}</title>
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'leaflet/leaflet/leaflet.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link href="{% static 'leaflet/font-awesome-4.7.0/css/font-awesome.css'%}" rel='stylesheet'/>
+</head>
+
+<body>
+    <nav class="navbar" id="banner">
+        <img src="{% static 'banner2.jpg' %}" class="img-fluid" alt="Responsive image">
+    </nav>
+    <nav class="navbar navbar-toggleable-sm navbar-inverse bg-inverse navegador">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navegador" aria-controls="navegador" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="{% url 'index' %}">Inicio</a>
+
+        <div class="collapse navbar-collapse" id="navegador">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ml-2">
+                    <a class="nav-link" href="{% url 'aparcamientos:todos' %}">Todos </a>
+                </li>
+                <li class="nav-item ml-2">
+                    <a class="nav-link" href="{% url 'about' %}">About</a>
+                </li>
+                {% if user.is_authenticated %}
+                    {% if actualizar %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'actualizar' %}">Actualizar</a>
+                        </li>
+                    {% endif %}
+                {% endif %}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if not accesibles %}
+                    {% if not detalle %}
+                    <li class="nav-item mr-5">
+                        <a class="nav-link {%if detalle %}disabled{% endif %}" href="{{request.path}}?accesibles=1{% if distrito %}&distrito={{distrito}}{% endif %}"><span class="badge badge-default-outline"><i class="fa fa-wheelchair" aria-hidden="true"></i></span></a>
+                    </li>
+                    {% endif %}
+                {% else %}
+                    {% if not detalle %}
+                    <li class="nav-item mr-5">
+                        <a class="nav-link {%if detalle %}disabled{% endif %}" href="{{request.path}}?accesibles=0{% if distrito %}&distrito={{distrito}}{% endif %}"><span class="badge badge-warning"><i class="fa fa-wheelchair" aria-hidden="true"></i></span></a>
+                    </li>
+                    {% endif %}
+                {% endif %}
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" id="user" href="{% url 'usuarios:index' user %}">{{ user.username }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'usuarios:logout' user %}">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link mr-2" id="user" href="{% url 'registro' %}">Registro</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <div id="contenido" class="container-fluid" style="background-color:{% if usercolor %}{{usercolor}}{% endif %};font-size:{% if usersize %}{{usersize}}px{% endif %};">
+        <div class="row">
+            {% include '_messages.html' %}
+        </div>
+            {% block content %}{% endblock content %}
+    </div>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="row">
+            <div class="h-100 pt-1">
+                <span class="text-muted">Esta aplicación utiliza datos del portal de datos abiertos de la ciudad de Madrid. <a href="http://datos.munimadrid.es/portal/site/egob/menuitem.ac61933d6ee3c31cae77ae7784f1a5a0/?vgnextoid=00149033f2201410VgnVCM100000171f5a0aRCRD&format=xml&file=0&filename=202584-0-aparcamientos-residentes&mgmtid=e84276ac109d3410VgnVCM2000000c205a0aRCRD&preview=full">XML</a></span>
+            </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{% static 'jquery/jquery.js' %}"></script>
+    <script type='text/javascript' src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'leaflet/leaflet/leaflet.js' %}"></script>
+    <script type='text/javascript' src="{% static 'js/main.js' %}"></script>
+    <script src="https://cdn.rawgit.com/CliffCloud/Leaflet.EasyButton/master/src/easy-button.js"></script>
+    <script type='text/javascript' src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

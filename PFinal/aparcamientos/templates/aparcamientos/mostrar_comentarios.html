@@ -1,0 +1,12 @@
+{% for comentario in comentarios %}
+    <div class="card mb-2">
+        <div class="card-header">
+            <strong>{{ comentario.titulo }}</strong> por Anónimo <br/> <small>
+                <strong>Hace: </strong>{{ comentario.creado|timesince }}
+            </small>
+        </div>
+        <div class="card-block">
+            <p class="card-text">{{ comentario.cuerpo }}</p>
+        </div>
+    </div>
+{% endfor %}

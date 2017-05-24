@@ -1,0 +1,13 @@
+{% if aparcamiento.email or aparcamiento.telefono %}
+<div class="row mt-3">
+    <h4>Contacto:</h4>
+</div>
+<div class="row">
+    {% if aparcamiento.email %}
+        <p><strong>Email: </strong>{{aparcamiento.email}}</p>
+    {% endif %}
+    {% if aparcamiento.telefono %}
+        <p><strong>Teléfono: </strong>{{aparcamiento.telefono}}</p>
+    {% endif %}
+</div>
+{% endif%}
